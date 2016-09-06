@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
+  TouchableOpacity,
   ListView
 } from 'react-native'
+import StartupInfo from '../components/StartupInfo'
 
 class Startups extends Component {
 
@@ -24,19 +26,28 @@ class Startups extends Component {
     	}
     }
 
-    renderRow(startup, sId, rId){
+    renderRow = (startup, sId, rId) => {
     	return (
-    		<Text>{startup.name}</Text>
+    		<TouchableOpacity onPress={this.selectStartup.bind(this, startup)}>
+    		    <Text>{startup.name}</Text>
+    		</TouchableOpacity>
     	)
+    }
+
+    selectStartup = (startup) => {
+    	console.log('selectStartup: '+JSON.stringify(startup))
+    	this.props.navigator.push({
+    		title: startup.name,
+    		component: StartupInfo
+    	})
+    	
     }	
 
-	render(){
+	render = () => {
 		return (
-            <View>
                 <ListView
                     dataSource={this.state.startups}
-                    renderRow={this.renderRow} />
-	        </View>
+                    renderRow={this.renderRow} />  
 	    )
 	}
 }
